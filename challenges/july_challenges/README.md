@@ -49,6 +49,7 @@ For each challenge you must submit the following:
 - All AI interactions that led to your completed design.
 
 All files should be submitted in the following format to [this Google form]():
+```
 submission.zip
 ├── README.md
 ├── rtl/
@@ -57,6 +58,7 @@ submission.zip
 │   └── <testbench to exploit Trojan>
 └── ai/
     └── <all AI interactions>
+```
 
 
 ## Judging:
