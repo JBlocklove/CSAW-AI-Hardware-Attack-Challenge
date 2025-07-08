@@ -84,31 +84,26 @@ Each submission will be scored based on the following criteria. Judges will awar
 |                        | Partially leaks key/data or leaks unreliably                                               | 3      |
 |                        | Trojan present, but fails to leak effectively                                              | 1      |
 |                        | No Trojan or no observable effect                                                          | 0      |
-
 | Stealth & Subtlety  | How stealthy is the Trojan? Does it alter normal behavior or timing?                         |        |
 |                        | No functional/timing deviations under normal use                                           | 5      |
 |                        | Minor changes in output, or partially visible to an informed observer                     | 3      |
 |                        | Clearly alters output or behavior even when untriggered                                   | 1      |
 |                        | Obvious or always-on Trojan                                                               | 0      |
-
 | Creativity & Design | How novel or clever is the Trojan’s trigger or implementation strategy?                      |        |
 |                        | Unique or inventive trigger/payload logic                                                  | 5      |
 |                        | Reasonably clever design with thoughtful integration                                       | 3      |
 |                        | Basic or common approach                                                                   | 1      |
 |                        | Little or no creative implementation                                                       | 0      |
-
 | Documentation       | Clarity of README: explains trigger, payload, and how to observe the Trojan                  |        |
 |                        | Clearly explains trigger, payload, and implementation details                             | 3      |
 |                        | Mostly explains the Trojan but lacks some clarity or completeness                         | 2      |
 |                        | Briefly mentions design or only partly helpful                                             | 1      |
 |                        | No README or unreadable                                                                   | 0      |
-
 | Demonstration       | Ability to demonstrate the Trojan working in simulation                                       |        |
 |                        | Simulation clearly shows both normal and triggered behavior                               | 3      |
 |                        | Trojan behavior is observable, but demonstration lacks clarity or completeness            | 2      |
 |                        | Attempted simulation with limited or unclear results                                       | 1      |
 |                        | No working simulation                                                                      | 0      |
-
 | AI Interaction | Method of using generative AI to insert a Trojan                  |        |
 |                        | AI used in a creative manner (fully-autonomous, agentic framework, finetuned LLM, etc.)  | 5      |
 |                        | AI used creatively, but required significant human hand-holding/direct interaction       | 3      |
