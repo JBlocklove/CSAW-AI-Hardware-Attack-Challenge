@@ -75,10 +75,10 @@ docker run --rm -it \
 ```
 
 ### Offline Docker
-If you can’t pull from Docker Hub, download the provided `csaw-aha-competition-1.0.tar.gz` and load it manually:
+If you can’t pull from Docker Hub, download the provided [csaw-aha-competition-1.0.tar.gz](https://drive.google.com/file/d/1CsJBnApkB9772kfkewy-NmKiUYKFg6qj/view?usp=sharing) from out Google Drive and load it manually:
 ```bash
 # Load the image into Docker
-gunzip -c ./docker/csaw-aha-competition-1.0.tar.gz | docker load
+gunzip -c csaw-aha-competition-1.0.tar.gz | docker load
 
 # Run it
 docker run --rm -it csaw-aha-competition:1.0
