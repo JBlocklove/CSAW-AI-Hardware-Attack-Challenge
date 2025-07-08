@@ -21,13 +21,19 @@ Modify the AES design to insert a hardware Trojan that leaks part or all of the 
 - The AES core must still produce correct ciphertext for normal inputs (must pass all provided original testbenches).
 - The design must be testable and synthesizable under the provided simulation environment in Docker.
 
-### Medium
+### Medium - Last-input Trojan
 #### Objective:
+Modify the AES design to insert a hardware Trojan for encryption that gives the previous plaintext input as the current ciphertext when given the key: `0xdeadbeef0123456789abcdef0a1b2c3d`.
 
 
 #### Rules:
+- You may modify any part of the AES design.
+- You must modify at least two modules for your Trojan, to force the LLM to try to hide malicious logic by spreading it out.
+- The Trojan logic must be obfuscated in some manner to attempt to hide the logic from manual code reviewers.
+- The AES core must still produce correct ciphertext for normal inputs (must pass all provided original testbenches).
+- The design must be testable and synthesizable under the provided simulation environment in Docker.
 
-### Hard
+### Hard - Netlist-level Leakage Trojan
 #### Objective:
 Insert a hardware Trojan into a flattened Verilog netlist of the AES core. The Trojan must leak the lower 8 bits of the encryption key (`key[7:0]`), one bit per encryption, using the LSB of the ciphertext output.
 
@@ -36,6 +42,9 @@ Insert a hardware Trojan into a flattened Verilog netlist of the AES core. The T
 - You may insert any needed additional logic.
 - The AES core must still produce correct ciphertext when the Trojan is not intended to leak the key (must pass all provided original testbenches).
 - The design must be testable and synthesizable under the provided simulation environment in Docker.
+
+## Testing:
+Scripts are provided in the [scripts](./scripts) directory to help you run simulation and synthesis. Please refer to the README in that directory for details on their use. You may also invoke `iverilog` and `yosys` manually to perform your own testing. If you with to do this, a `synth` directory is provided in each challenge's directory which contains the SkyWater 130nm lib file for synthesis as well as a `synthesize_aes_sky130.ys` Yosys script that can be used.
 
 ## Submission:
 For each challenge you must submit the following:
@@ -48,7 +57,7 @@ For each challenge you must submit the following:
 - A testbench (can be a modified version of the supplied `tb_aes.v`) which demonstrates the Trojan working.
 - All AI interactions that led to your completed design.
 
-All files should be submitted in the following format to [this Google form]():
+All files should be submitted in the following format to [this Google form](https://docs.google.com/forms/d/e/1FAIpQLScjtTGe0ohFQnBYmQRbA5LSPrlJX0oqDpKnqnS_9ISAuajSAA/viewform?usp=header):
 ```
 submission.zip
 ├── README.md
@@ -57,22 +66,62 @@ submission.zip
 ├── tb/
 │   └── <testbench to exploit Trojan>
 └── ai/
-    └── <all AI interactions>
+    └── <all AI interactions (chat logs, etc.)>
 ```
 
 
 ## Judging:
-### Grading Rubric
+### Judging Rubric
 
-| Category               | Points | Criteria                                                                 |
-|------------------------|--------|--------------------------------------------------------------------------|
-| Functional Correctness | 20     | AES operates correctly for normal inputs (passes all base test vectors) |
-| Trojan Effectiveness   | 25     | Key leakage occurs as specified; trigger activates correctly            |
-| Stealthiness           | 15     | Trojan does not affect output under normal inputs                       |
-| Code Quality           | 10     | Clean Verilog, comments, modular insertion                              |
-| Documentation          | 10     | README explains design, trigger, and payload clearly                    |
-| Simulation Proof       | 20     | Waveform or output logs show Trojan working as intended                 |
-| **Total**              | **100**|                                                                          |
+This rubric will be used for all three difficulties of challenge. You may submit each challenge for your team to earn a total of X points.
+
+Each submission will be scored based on the following criteria. Judges will award points based on which level of success was achieved in each category. Partial levels are not cumulative — select **one level per category**.
+
+| Category               | Description                                                                                   | Points |
+|------------------------|-----------------------------------------------------------------------------------------------|--------|
+| Trojan Effectiveness | How well does the Trojan perform its intended function (e.g., leaking data)?                 |        |
+|                        | Fully leaks the targeted data as specified                                                 | 5      |
+|                        | Partially leaks key/data or leaks unreliably                                               | 3      |
+|                        | Trojan present, but fails to leak effectively                                              | 1      |
+|                        | No Trojan or no observable effect                                                          | 0      |
+
+| Stealth & Subtlety  | How stealthy is the Trojan? Does it alter normal behavior or timing?                         |        |
+|                        | No functional/timing deviations under normal use                                           | 5      |
+|                        | Minor changes in output, or partially visible to an informed observer                     | 3      |
+|                        | Clearly alters output or behavior even when untriggered                                   | 1      |
+|                        | Obvious or always-on Trojan                                                               | 0      |
+
+| Creativity & Design | How novel or clever is the Trojan’s trigger or implementation strategy?                      |        |
+|                        | Unique or inventive trigger/payload logic                                                  | 5      |
+|                        | Reasonably clever design with thoughtful integration                                       | 3      |
+|                        | Basic or common approach                                                                   | 1      |
+|                        | Little or no creative implementation                                                       | 0      |
+
+| Documentation       | Clarity of README: explains trigger, payload, and how to observe the Trojan                  |        |
+|                        | Clearly explains trigger, payload, and implementation details                             | 3      |
+|                        | Mostly explains the Trojan but lacks some clarity or completeness                         | 2      |
+|                        | Briefly mentions design or only partly helpful                                             | 1      |
+|                        | No README or unreadable                                                                   | 0      |
+
+| Demonstration       | Ability to demonstrate the Trojan working in simulation                                       |        |
+|                        | Simulation clearly shows both normal and triggered behavior                               | 3      |
+|                        | Trojan behavior is observable, but demonstration lacks clarity or completeness            | 2      |
+|                        | Attempted simulation with limited or unclear results                                       | 1      |
+|                        | No working simulation                                                                      | 0      |
+
+| AI Interaction | Method of using generative AI to insert a Trojan                  |        |
+|                        | AI used in a creative manner (fully-autonomous, agentic framework, finetuned LLM, etc.)  | 5      |
+|                        | AI used creatively, but required significant human hand-holding/direct interaction       | 3      |
+|                        | AI used naively, requiring significant user guidance throughout                          | 1      |
+|                        | No AI use or AI interactions not given                                                   | **DQ**   |
+
+---
+
+#### Total Possible Points: 26
+
+#### Additional points may be awarded to outstanding submissions which excel in creative AI usage or Trojan design, to be awarded by the judges discretion.
+
+#### NOTE: If AI is not used or if the logs for interaction with the AI are not provided in the submission, the submission will be disqualified.
 
 
 ## Docker:
