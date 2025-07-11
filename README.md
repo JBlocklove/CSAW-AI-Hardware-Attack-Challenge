@@ -38,6 +38,8 @@ Each challenge will have its own rubric regarding how points can be awarded. Cha
 ## Registration:
 No need to register up front, please submit your team's registration using [this form](https://docs.google.com/forms/d/e/1FAIpQLSciLI2mEVj3aZ30QzYz1wToWwuoGoEVIB-mPer6PY_K603YYw/viewform?usp=header) when you are submitting your solutions for your first competition!
 
+Teams can consist of up to **four college/university students** with **one advisor**. 
+
 ## Prizes:
 Prizes for this competition are still being sourced, but the top 3 teams at the conclusion during CSAW will receive hardware or pre-purchased space on a future Tiny Tapeout!
 
