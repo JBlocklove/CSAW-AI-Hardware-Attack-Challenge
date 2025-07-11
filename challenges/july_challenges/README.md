@@ -129,5 +129,3 @@ Each submission will be scored based on the following criteria. Judges will awar
 
 #### NOTE: If AI is not used or if the logs for interaction with the AI are not provided in the submission, the submission will be disqualified.
 
-
-## Docker:
