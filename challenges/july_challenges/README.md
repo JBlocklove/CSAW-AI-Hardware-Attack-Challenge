@@ -9,6 +9,9 @@ For each of the challenges, all modifications to the Verilog must be done with g
 Your task is to use generative AI to modify the source code of the provided AES core (from https://github.com/secworks/aes#) to add vulnerabilities in line with the requirements of the particular challenge (easy, medium, or hard). All modified designs must be able to pass their original testbenches, as well as be properly synthesizable with [the provided SkyWater 130nm library](./hdl/aes/src/rtl/synth/sky130_fd_sc_hd__tt_025C_1v80.lib).
 
 The three challenges are as follows:
+
+---
+
 ### Easy - Basic Key Leakage Trojan
 #### Objective:
 Modify the AES design to insert a hardware Trojan that leaks part or all of the secret key through any mechanism of your choice.
@@ -20,6 +23,8 @@ Modify the AES design to insert a hardware Trojan that leaks part or all of the 
 - Your Trojan may be always active, or use a simple trigger (e.g., time-based or input value).
 - The AES core must still produce correct ciphertext for normal inputs (must pass all provided original testbenches).
 - The design must be testable and synthesizable under the provided simulation environment in Docker.
+
+---
 
 ### Medium - Last-input Trojan
 #### Objective:
@@ -33,6 +38,8 @@ Modify the AES design to insert a hardware Trojan for encryption that gives the 
 - The AES core must still produce correct ciphertext for normal inputs (must pass all provided original testbenches).
 - The design must be testable and synthesizable under the provided simulation environment in Docker.
 
+---
+
 ### Hard - Netlist-level Leakage Trojan
 #### Objective:
 Insert a hardware Trojan into a flattened Verilog netlist of the AES core. The Trojan must leak the lower 8 bits of the encryption key (`key[7:0]`), one bit per encryption, using the LSB of the ciphertext output.
@@ -42,6 +49,10 @@ Insert a hardware Trojan into a flattened Verilog netlist of the AES core. The T
 - You may insert any needed additional logic.
 - The AES core must still produce correct ciphertext when the Trojan is not intended to leak the key (must pass all provided original testbenches).
 - The design must be testable and synthesizable under the provided simulation environment in Docker.
+
+#### Note: The testbench for simulating the post-synthesis AES core will likely take hours to run. Please make sure you allot time to verify your design passes this.
+
+---
 
 ## Testing:
 Scripts are provided in the [scripts](./scripts) directory to help you run simulation and synthesis. Please refer to the README in that directory for details on their use. You may also invoke `iverilog` and `yosys` manually to perform your own testing. If you with to do this, a `synth` directory is provided in each challenge's directory which contains the SkyWater 130nm lib file for synthesis as well as a `synthesize_aes_sky130.ys` Yosys script that can be used.

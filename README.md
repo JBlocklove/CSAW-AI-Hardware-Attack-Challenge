@@ -20,7 +20,7 @@ Participating teams will be tasked with leveraging AI tools, such as LLMs, to in
 All challenges must be completed using AI tools and all information regarding those tools must be submitted, including complete and detailed logs of their use, i.e. if an LLM is being used, we require all conversations with the model be submitted.
 
 ## Timeline:
-- 1 July: First challenge given
+- 10 July: First challenge given
 - 1 August: Second challenge given
 - 1 September: Third challenge given
 - 1 October: Fourth challenge given
