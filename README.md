@@ -1,15 +1,7 @@
 # CSAW AI Hardware Attack Challenge
+[![CC BY-NC 4.0][cc-by-nc-shield]][cc-by-nc]
 
-Shield: [![CC BY-NC 4.0][cc-by-nc-shield]][cc-by-nc]
-
-This work is licensed under a
-[Creative Commons Attribution-NonCommercial 4.0 International License][cc-by-nc].
-
-[![CC BY-NC 4.0][cc-by-nc-image]][cc-by-nc]
-
-[cc-by-nc]: https://creativecommons.org/licenses/by-nc/4.0/
-[cc-by-nc-image]: https://licensebuttons.net/l/by-nc/4.0/88x31.png
-[cc-by-nc-shield]: https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg
+[![](https://dcbadge.limes.pink/api/server/https://discord.gg/sR6x3FG2xX)](https://discord.gg/sR6x3FG2xX)
 
 ## Competition Description
 Participating teams will be tasked with leveraging AI tools, such as LLMs, to insert and exploit hardware vulnerabilities and Trojans for various open-source hardware designs. These can include cryptographic accelerators, processors, communication IPs, etc. Each month leading up to the in-person final at CSAW, a new challenge (or challenges) will be issued. Each of these challenges will remain available for the duration of the competition until the finalist teams are selected so new teams can join at any time. At the conclusion of each month’s challenges, a winning team will be selected and awarded a small hardware prize. Potential challenges could include:
@@ -36,6 +28,8 @@ Each challenge will have its own rubric regarding how points can be awarded. Cha
 
 ## Registration:
 No need to register up front, please submit your team's registration using [this form](https://docs.google.com/forms/d/e/1FAIpQLSciLI2mEVj3aZ30QzYz1wToWwuoGoEVIB-mPer6PY_K603YYw/viewform?usp=header) when you are submitting your solutions for your first competition!
+
+Teams can consist of up to **four college/university students** with **one advisor**. 
 
 ## Prizes:
 Prizes for this competition are still being sourced, but the top 3 teams at the conclusion during CSAW will receive hardware or pre-purchased space on a future Tiny Tapeout!
@@ -82,3 +76,15 @@ gunzip -c csaw-aha-competition-1.0.tar.gz | docker load
 # Run it
 docker run --rm -it csaw-aha-competition:1.0
 ```
+
+---
+
+## License
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial 4.0 International License][cc-by-nc].
+
+[![CC BY-NC 4.0][cc-by-nc-image]][cc-by-nc]
+
+[cc-by-nc]: https://creativecommons.org/licenses/by-nc/4.0/
+[cc-by-nc-image]: https://licensebuttons.net/l/by-nc/4.0/88x31.png
+[cc-by-nc-shield]: https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg
