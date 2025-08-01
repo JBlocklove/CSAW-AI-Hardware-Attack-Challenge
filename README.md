@@ -21,9 +21,8 @@ All challenges must be completed using AI tools and all information regarding th
 
 ## Timeline:
 - 10 July: First challenge given
-- 1 August: Second challenge given
-- 1 September: Third challenge given
-- 1 October: Fourth challenge given
+- 15 August: Second challenge given
+- 12 September: Third challenge given
 - 8 October: All challenges due
 - 10 October: Finalist teams will be notified and invited to participate in finals at CSAW in New York City
     - We may not be able to fly all teams out, depending on their location. Global participation is still encouraged. If you cannot attend a CSAW event in person we will arrange for virtual presentations.
@@ -50,8 +49,8 @@ Prizes for this competition are still being sourced, but the top 3 teams at the 
 
 # Challenges:
 
-## July Challenge!
-You can find all information for the first challenge [here!](./challenges/july_challenges)
+## Challenge #1!
+You can find all information for the first challenge [here!](./challenges/challenge_1)
 
 ## Using the Docker:
 We are providing a Docker container with some tools already installed so you can check the functionality of the design. You do not need to use the Docker, but we encourage using it at least once before submission to ensure that your design is working in that environment, as that is the container we will be using to verify submissions.

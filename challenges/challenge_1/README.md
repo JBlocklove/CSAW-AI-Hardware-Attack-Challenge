@@ -1,4 +1,4 @@
-# July Challenge!
+# Challenge #1
 Welcome to the first challenge in the 2025 CSAW AI Hardware Attack Challenge!
 
 The first challenges will focus on leveraging generative AI to add hardware Trojans to an AES core. Three difficulties of challenge will be provided: easy, medium, and hard, with each worth increasing points.
