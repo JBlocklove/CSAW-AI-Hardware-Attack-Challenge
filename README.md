@@ -10,7 +10,7 @@ Participating teams will be tasked with leveraging AI tools, such as LLMs, to in
 - Modifying security checks to allow a Trojan-infected hardware module to pass verification.
 - Modifying a design to make it more vulnerable to potential side-channel attacks.
 - Etc.
-    
+
 All challenges must be completed using AI tools and all information regarding those tools must be submitted, including complete and detailed logs of their use, i.e. if an LLM is being used, we require all conversations with the model be submitted.
 
 ## Timeline:
@@ -31,7 +31,7 @@ Each challenge will have its own rubric regarding how points can be awarded. Cha
 ## Registration:
 No need to register up front, please submit your team's registration using [this form](https://docs.google.com/forms/d/e/1FAIpQLSciLI2mEVj3aZ30QzYz1wToWwuoGoEVIB-mPer6PY_K603YYw/viewform?usp=header) when you are submitting your solutions for your first competition!
 
-Teams can consist of up to **four college/university students** with **one advisor**. 
+Teams can consist of up to **four college/university students** with **one advisor**.
 
 ## Prizes:
 Prizes for this competition are still being sourced, but the top 3 teams at the conclusion during CSAW will receive hardware or pre-purchased space on a future Tiny Tapeout!
@@ -47,6 +47,9 @@ Prizes for this competition are still being sourced, but the top 3 teams at the 
 
 ## Challenge #1!
 You can find all information for the first challenge [here!](./challenges/challenge_1)
+
+## Challenge #2!
+You can find all information for the first challenge [here!](./challenges/challenge_2)
 
 ## Using the Docker:
 We are providing a Docker container with some tools already installed so you can check the functionality of the design. You do not need to use the Docker, but we encourage using it at least once before submission to ensure that your design is working in that environment, as that is the container we will be using to verify submissions.
