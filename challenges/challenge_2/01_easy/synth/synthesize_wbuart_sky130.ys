@@ -5,7 +5,7 @@ read_verilog ../rtl/rxuart.v ../rtl/txuart.v ../rtl/skidbuffer.v ../rtl/ufifo.v 
 read_liberty -lib ./sky130_fd_sc_hd__tt_025C_1v80.lib
 
 # 3. Elaborate hierarchy, set top, and flatten
-hierarchy -check -top aes
+hierarchy -check -top wbuart
 proc; opt
 flatten
 
