@@ -84,7 +84,7 @@ submission.zip
 ## Judging:
 ### Judging Rubric
 
-This rubric will be used for all three difficulties of challenge. You may submit each challenge for your team to earn a total of X points.
+This rubric will be used for all three difficulties of challenge. You may submit each challenge for your team to earn a total of 78 points.
 
 Each submission will be scored based on the following criteria. Judges will award points based on which level of success was achieved in each category. Partial levels are not cumulative — select **one level per category**.
 
