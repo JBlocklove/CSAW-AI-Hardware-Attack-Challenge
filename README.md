@@ -29,7 +29,7 @@ Each challenge will have its own rubric regarding how points can be awarded. Cha
 ## Registration:
 No need to register up front, please submit your team's registration using [this form](https://docs.google.com/forms/d/e/1FAIpQLSciLI2mEVj3aZ30QzYz1wToWwuoGoEVIB-mPer6PY_K603YYw/viewform?usp=header) when you are submitting your solutions for your first competition!
 
-Teams can consist of up to **four college/university students** with **one advisor**. 
+Teams can consist of up to **four college/university students** with **one advisor**.
 
 ## Prizes:
 Prizes for this competition are still being sourced, but the top 3 teams at the conclusion during CSAW will receive hardware or pre-purchased space on a future Tiny Tapeout!
@@ -54,8 +54,8 @@ We are providing a Docker container with some tools already installed so you can
 Grab the pre-built image from Docker Hub and drop into your competition environment:
 
 ```bash
-docker pull <your-hub-username>/competition:1.0
-docker run --rm -it <your-hub-username>/competition:1.0
+docker pull jblocklove/csaw-aha-competition:1.1
+docker run --rm -it jblocklove/csaw-aha-competition:1.1
 ```
 This will drop you into a `zsh` shell as the non-root user `devuser`, with the full challenge tree mounted at `~/challenges`.
 
@@ -64,17 +64,17 @@ We expect most of you would rather do your development on your own machine and j
 ```bash
 docker run --rm -it \
   -v "<path to your local challenges directory>":/home/devuser/challenges \
-  JBlocklove/csaw-aha-competition:1.0
+  jblocklove/csaw-aha-competition:1.1
 ```
 
 ### Offline Docker
 If you can’t pull from Docker Hub, download the provided [csaw-aha-competition-1.0.tar.gz](https://drive.google.com/file/d/1CsJBnApkB9772kfkewy-NmKiUYKFg6qj/view?usp=sharing) from out Google Drive and load it manually:
 ```bash
 # Load the image into Docker
-gunzip -c csaw-aha-competition-1.0.tar.gz | docker load
+gunzip -c csaw-aha-competition-1.1.tar.gz | docker load
 
 # Run it
-docker run --rm -it csaw-aha-competition:1.0
+docker run --rm -it csaw-aha-competition:1.1
 ```
 
 ---
