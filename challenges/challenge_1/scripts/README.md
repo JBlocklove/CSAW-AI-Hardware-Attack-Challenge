@@ -79,16 +79,17 @@ tb_list="tb_aes_key_mem"; rtl_list="aes_core,aes_sbox"
 - **Logging**: Full Yosys console output captured per run.
 
 ### Usage
+Default project is `./`, to run from this directory on a specific challenge project, you need to supply `-p <../challenge>` for the correct project (i.e. `-p ../01_easy`).
 
 ```bash
 # Show detailed help
 ./run_synthesis.sh -h
 
 # Default synthesis (all RTL, default lib)
-./run_synthesis.sh
+./run_synthesis.sh -p ../01_easy
 
 # Synthesize only aes_core and aes_sbox with custom Liberty
-./run_synthesis.sh -i aes_core,aes_sbox -l path/to/custom.lib
+./run_synthesis.sh -p <../01_easy> -i aes_core,aes_sbox -l path/to/custom.lib
 
 # Custom RTL directory and output locations
 ./run_synthesis.sh -d src/rtl -o build/netlist -L build/logs

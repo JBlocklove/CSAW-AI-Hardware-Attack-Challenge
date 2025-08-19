@@ -5,32 +5,34 @@ set -euo pipefail
 
 # Default paths and parameters
 RTL_DIR="./rtl"
-LIB_FILE="./rtl/synth/sky130_fd_sc_hd__tt_025C_1v80.lib"
+LIB_FILE="./synth/sky130_fd_sc_hd__tt_025C_1v80.lib"
 OUT_DIR="./synth-run"
 LOG_DIR="./synth-logs"
-TOP_MODULE="aes"
+TOP_MODULE="wbuart"
 CLOCK_PERIOD_PS="1000"
+PROJECT_ROOT="./"
 
 usage() {
   cat <<EOF
-Usage: $0 [-h] [-d rtl_dir] [-i mod1,mod2,...] [-l liberty_file] [-o out_dir] [-L log_dir] [-m top_module] [-c clock_ps]
+Usage: $0 [-h] [-d rtl_dir] [-i mod1,mod2,...] [-l liberty_file] [-o out_dir] [-L log_dir] [-m top_module] [-c clock_ps] [-p project_dir]
 
 Options:
   -h               Show this help message and exit
   -d <rtl_dir>     Directory containing input RTL (.v) files (default: ./rtl)
   -i <mods>        Comma-separated list of RTL basenames (without .v) to synthesize (default: all .v in rtl_dir)
-  -l <liberty>     Path to Liberty (.lib) file (default: $LIB_FILE)
-  -o <out_dir>     Directory for generated netlist/JSON (default: $OUT_DIR)
-  -L <log_dir>     Directory for synthesis logs (default: $LOG_DIR)
-  -m <top>         Top-level module name (default: $TOP_MODULE)
-  -c <clock_ps>    Target clock period in picoseconds (default: $CLOCK_PERIOD_PS)
+  -l <liberty>     Path to Liberty (.lib) file (default: ./synth/sky130_fd_sc_hd__tt_025C_1v80.lib)
+  -o <out_dir>     Directory for generated netlist/JSON (default: ./synth-run)
+  -L <log_dir>     Directory for synthesis logs (default: ./synth-logs)
+  -m <top>         Top-level module name (default: aes)
+  -c <clock_ps>    Target clock period in picoseconds (default: 1000)
+  -p <project_dir> Project root (default: ./)
 EOF
   exit 1
 }
 
 # Parse flags
 mods_spec=""
-while getopts ":hd:i:l:o:L:m:c:" opt; do
+while getopts ":hd:i:l:o:L:m:c:p:" opt; do
   case "$opt" in
     h) usage ;;
     d) RTL_DIR="$OPTARG" ;;
@@ -40,11 +42,22 @@ while getopts ":hd:i:l:o:L:m:c:" opt; do
     L) LOG_DIR="$OPTARG" ;;
     m) TOP_MODULE="$OPTARG" ;;
     c) CLOCK_PERIOD_PS="$OPTARG" ;;
+    p) PROJECT_ROOT="$OPTARG" ;;
     *) usage ;;
   esac
 
 done
 shift $((OPTIND -1))
+
+# Default paths and parameters
+RTL_DIR="$PROJECT_ROOT/rtl"
+LIB_FILE="$PROJECT_ROOT/synth/sky130_fd_sc_hd__tt_025C_1v80.lib"
+OUT_DIR="$PROJECT_ROOT/synth-run"
+LOG_DIR="$PROJECT_ROOT/synth-logs"
+TOP_MODULE="wbuart"
+CLOCK_PERIOD_PS="1000"
+
+SKIP_FILES=("wbuart-insert.v")
 
 # Prepare RTL file list
 declare -a rtl_sources
@@ -62,6 +75,16 @@ else
   # all .v files in directory
   rtl_sources=("$RTL_DIR"/*.v)
 fi
+
+# Remove skipped files
+for skip in "${SKIP_FILES[@]}"; do
+  for i in "${!rtl_sources[@]}"; do
+    if [[ "$(basename "${rtl_sources[i]}")" == "$skip" ]]; then
+      unset 'rtl_sources[i]'
+    fi
+  done
+done
+rtl_sources=("${rtl_sources[@]}")  # re-pack array
 
 # Verify Liberty file exists
 if [[ ! -f "$LIB_FILE" ]]; then

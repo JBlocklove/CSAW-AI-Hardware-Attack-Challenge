@@ -1,95 +1,120 @@
 #!/usr/bin/env bash
-# run_simulation.sh: compile and run AES testbenches with iverilog
-
+# run_simulation.sh: build and run Verilator sims using project Makefiles
 set -euo pipefail
 
-# Default directories and output locations
-TB_DIR="./tb"
-RTL_DIR="./rtl"
-LOG_DIR="./sim-logs"
-SIM_RUN_DIR="./sim-run"
+ALL_TESTS=(linetest linetestlite helloworld helloworldlite speechtest speechtestlite)
 
 usage() {
   cat <<EOF
-Usage: $0 [-h] [-d tb_dir] [-s rtl_dir] [-t test1,test2,...] [-r rtl1,rtl2,...]
+Usage: $0 [options]
 
 Options:
-  -h            Show this help message and exit
-  -d <tb_dir>   Directory containing testbenches (default: ./tb)
-  -s <rtl_dir>  Directory containing RTL sources (default: ./rtl)
-  -t <tests>    Comma-separated list of testbench basenames (without .v). Default: all in tb_dir
-  -r <rtls>     Comma-separated list of RTL basenames (without .v). Default: all in rtl_dir
+  -h              Show this help message and exit
+  -t <tests>      Comma-separated list of tests to run (default: all)
+                  Available: ${ALL_TESTS[*]}
+  -p <proj_dir>   Path to project root containing top-level Makefile
+  --clean         Clean all build products and exit
+  --no-build      Skip building, only run existing binaries
+
+Environment:
+  VERILATOR       Path to verilator (optional; Makefiles auto-detect)
 EOF
   exit 1
 }
 
-# Parse flags
+# Defaults
 tests_spec=""
-rtl_spec=""
-while getopts ":hd:s:t:r:" opt; do
-  case "$opt" in
-    h) usage ;;
-    d) TB_DIR="$OPTARG" ;;
-    s) RTL_DIR="$OPTARG" ;;
-    t) tests_spec="$OPTARG" ;;
-    r) rtl_spec="$OPTARG" ;;
-    *) usage ;;
+CLEAN=0
+NO_BUILD=0
+PROJ_DIR="$(pwd)"
+
+# Parse args
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h) usage ;;
+    -t) tests_spec="$2"; shift 2 ;;
+    -p) PROJ_DIR="$2"; shift 2 ;;
+    --clean) CLEAN=1; shift ;;
+    --no-build) NO_BUILD=1; shift ;;
+    *) echo "Unknown option: $1" >&2; usage ;;
   esac
 done
-shift $((OPTIND -1))
 
-# Build list of testbench files
-declare -a tests
+LOG_DIR="$PROJ_DIR/sim-logs"
+
+# Sanity check
+if [[ ! -f "$PROJ_DIR/Makefile" ]]; then
+  echo "Error: no top-level Makefile found in $PROJ_DIR" >&2
+  exit 1
+fi
+
+# Clean mode
+if [[ $CLEAN -eq 1 ]]; then
+  echo "=== Cleaning all build outputs in $PROJ_DIR ==="
+  make -C "$PROJ_DIR/rtl" clean || true
+  make -C "$PROJ_DIR/bench/verilog" clean || true
+  make -C "$PROJ_DIR/bench/cpp" clean || true
+  exit 0
+fi
+
+# Tests list
+declare -a TESTS
 if [[ -n "$tests_spec" ]]; then
-  IFS=',' read -ra names <<< "$tests_spec"
-  for name in "${names[@]}"; do
-    file="$TB_DIR/${name%.v}.v"
-    if [[ ! -f "$file" ]]; then
-      echo "Error: testbench '$file' not found." >&2
-      exit 1
-    fi
-    tests+=("$file")
-  done
+  IFS=',' read -ra TESTS <<< "$tests_spec"
 else
-  tests=("$TB_DIR"/*.v)
+  TESTS=("${ALL_TESTS[@]}")
 fi
 
-# Build list of RTL source files
-declare -a rtl_sources
-if [[ -n "$rtl_spec" ]]; then
-  IFS=',' read -ra names <<< "$rtl_spec"
-  for name in "${names[@]}"; do
-    file="$RTL_DIR/${name%.v}.v"
-    if [[ ! -f "$file" ]]; then
-      echo "Error: RTL source '$file' not found." >&2
-      exit 1
-    fi
-    rtl_sources+=("$file")
-  done
-else
-  rtl_sources=("$RTL_DIR"/*.v)
+# Validate tests
+for t in "${TESTS[@]}"; do
+  if [[ ! " ${ALL_TESTS[*]} " =~ " ${t} " ]]; then
+    echo "Error: unknown test '${t}'. Valid: ${ALL_TESTS[*]}" >&2
+    exit 1
+  fi
+done
+
+# Need verilator unless skipping build
+if [[ $NO_BUILD -eq 0 ]]; then
+  if ! command -v "${VERILATOR:-verilator}" >/dev/null 2>&1; then
+    echo "Error: verilator not found in PATH (or VERILATOR). Install it first." >&2
+    exit 1
+  fi
 fi
 
-# Prepare output directories
-mkdir -p "$LOG_DIR" "$SIM_RUN_DIR"
+mkdir -p "$LOG_DIR"
 
-# Compile and simulate each testbench
-for tb in "${tests[@]}"; do
-  tb_base=$(basename "$tb" .v)
-  exe="$SIM_RUN_DIR/${tb_base}.out"
+# Build if not skipped
+if [[ $NO_BUILD -eq 0 ]]; then
+  echo "=== Building RTL libraries (rtl) ==="
+  make -C "$PROJ_DIR/rtl" test
 
-  echo "Compiling $tb_base from \${rtl_sources[*]} + $tb..."
-  if ! iverilog -o "$exe" "${rtl_sources[@]}" "$tb"; then
-    echo "[FAIL] Compilation failed for $tb_base" >&2
+  echo "=== Building bench Verilog libraries (bench/verilog) ==="
+  make -C "$PROJ_DIR/bench/verilog" test
+fi
+
+# Build & run tests
+for t in "${TESTS[@]}"; do
+  if [[ $NO_BUILD -eq 0 ]]; then
+    echo "=== Building $t (bench/cpp) ==="
+    if ! make -C "$PROJ_DIR/bench/cpp" "$t"; then
+      echo "[FAIL] Build failed for $t" >&2
+      continue
+    fi
+  fi
+
+  bin="$PROJ_DIR/bench/cpp/$t"
+  log="$LOG_DIR/${t}.log"
+
+  if [[ ! -x "$bin" ]]; then
+    echo "[FAIL] $t: binary not found at $bin" >&2
     continue
   fi
 
-  echo "Running $tb_base..."
-  if vvp "$exe" > "$LOG_DIR/${tb_base}.log" 2>&1; then
-    echo "[PASS] $tb_base (log: $LOG_DIR/${tb_base}.log)"
+  echo "=== Running $t ==="
+  if "$bin" >"$log" 2>&1; then
+    echo "[PASS] $t (log: $log)"
   else
-    echo "[FAIL] Simulation failed for $tb_base (see log: $LOG_DIR/${tb_base}.log)" >&2
+    echo "[FAIL] $t (see log: $log)" >&2
   fi
-
 done
 
