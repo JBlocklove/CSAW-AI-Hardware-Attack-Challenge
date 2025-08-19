@@ -17,17 +17,35 @@ This repository provides two Bash scripts to automate common Verilog workflows:
 
 - Bash (POSIX-compatible)
 - Verilator installed and on your `PATH`
-- A project layout with separate directories for RTL sources and testbenches
+- A project with the following layout:
+```
+<project>/
+├── Makefile
+├── rtl/ # simulateable RTL
+└── bench/
+    ├── verilog/ # Verilog testbenches for Verilator
+    └── cpp/ # C++ harnesses and test executables for Verilator
+```
 
 ### Features
 
-- **Configurable directories**: Default testbench dir is `./tb`; default RTL dir is `./rtl`. Override with `-d` and `-s`.
-- **Selective runs**: Specify a comma-separated list of testbench basenames with `-t`. Default: all `.v` files in the testbench directory.
-- **Custom RTL inclusion**: Pick which RTL modules to compile with `-r` (comma-separated basenames). Default: all `.v` in the RTL directory.
-- **Automatic outputs**:
-  - Compiled executables → `./sim-run/<testbench>.out`
-  - Simulation logs → `./sim-logs/<testbench>.log`
-- **Pass/fail reporting**: Terminal output indicates success or failure per test.
+- **Project root selection**: Use `-p` to point to the project root containing the top-level Makefile. Defaults to current directory.
+- **Selective runs**: Run specific tests with `-t` (comma-separated). Defaults to all known tests.
+- **Log capture**: Each test’s output is written to `./sim-logs/<test>.log`.
+- **Pass/fail reporting**: Results are printed to the terminal.
+- **Clean rebuilds**: `--clean` removes all build artifacts across `rtl`, `bench/verilog`, and `bench/cpp`.
+- **Run without rebuilding**: `--no-build` skips compilation and only executes already-built binaries.
+
+### Supported Tests
+
+The available test executables (from `bench/cpp/Makefile`) are:
+
+- `linetest`
+- `linetestlite`
+- `helloworld`
+- `helloworldlite`
+- `speechtest`
+- `speechtestlite`
 
 ### Usage
 
@@ -35,20 +53,17 @@ This repository provides two Bash scripts to automate common Verilog workflows:
 # Show detailed help
 ./run_simulation.sh -h
 
-# Run every testbench in ./tb/ with all RTL in ./rtl/
-./run_simulation.sh
+# Run all tests from a project in ./wbuart32
+./run_simulation.sh -p ./wbuart32
 
-# Run specific benches (aes and aes_core) against default RTL
-./run_simulation.sh -t aes,aes_core
+# Run only linetest and helloworld
+./run_simulation.sh -p ./wbuart32 -t linetest,helloworld
 
-# Use custom directories
-tb_dir="my_projects/bench_tb"; rtl_dir="my_projects/rtl_src"
-./run_simulation.sh -d "$tb_dir" -s "$rtl_dir"
+# Clean all build products
+./run_simulation.sh -p ./wbuart32 --clean
 
-# Specify both tests and RTL modules
-tb_list="tb_aes_key_mem"; rtl_list="aes_core,aes_sbox"
-./run_simulation.sh -t "$tb_list" -r "$rtl_list"
-```
+# Skip building and only run already-built binaries
+./run_simulation.sh -p ./wbuart32 --no-build -t speechtest
 
 ### Output Layout
 
@@ -79,16 +94,17 @@ tb_list="tb_aes_key_mem"; rtl_list="aes_core,aes_sbox"
 - **Logging**: Full Yosys console output captured per run.
 
 ### Usage
+Default project is `./`, to run from this directory on a specific challenge project, you need to supply `-p <../challenge>` for the correct project (i.e. `-p ../01_easy`).
 
 ```bash
 # Show detailed help
 ./run_synthesis.sh -h
 
 # Default synthesis (all RTL, default lib)
-./run_synthesis.sh
+./run_synthesis.sh -p ../01_easy
 
-# Synthesize only aes_core and aes_sbox with custom Liberty
-./run_synthesis.sh -i aes_core,aes_sbox -l path/to/custom.lib
+# Synthesize only rxuart with custom Liberty
+./run_synthesis.sh -p ../01_easy -i rxuart -l path/to/custom.lib
 
 # Custom RTL directory and output locations
 ./run_synthesis.sh -d src/rtl -o build/netlist -L build/logs
