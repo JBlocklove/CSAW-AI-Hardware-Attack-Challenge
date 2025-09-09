@@ -16,12 +16,11 @@ All challenges must be completed using AI tools and all information regarding th
 ## Timeline:
 - 10 July: First challenge given
 - 15 August: Second challenge given
-- 12 September: Third challenge given
-- 8 October: All challenges due
-- 10 October: Finalist teams will be notified and invited to participate in finals at CSAW in New York City
+- 1 October: All challenges due
+- 3 October: Finalist teams will be notified and invited to participate in finals at CSAW in New York City
     - We may not be able to fly all teams out, depending on their location. Global participation is still encouraged. If you cannot attend a CSAW event in person we will arrange for virtual presentations.
-- 15 October: Final challenge given
-- 14 November: Final challenge presentations and poster session at CSAW in New York City
+- 8 October: Final challenge given
+- 7 November: Final challenge presentations and poster session at CSAW in New York City
 
 #### Note: The challenges do not need to be completed within the month they are given, this is just when we are releasing them. We will also update a monthly leaderboard in this repository as the competition progresses. All teams will have up until the 8 October deadline to submit their challenges to earn points and be considered as a finalist team.
 
