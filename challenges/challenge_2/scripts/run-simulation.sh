@@ -40,6 +40,10 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Absolute path for project dir
+PROJ_DIR="$(cd "$PROJ_DIR" && pwd)"
+
+
 LOG_DIR="$PROJ_DIR/sim-logs"
 
 # Sanity check
@@ -102,6 +106,8 @@ for t in "${TESTS[@]}"; do
     fi
   fi
 
+  cd $PROJ_DIR/bench/cpp
+
   bin="$PROJ_DIR/bench/cpp/$t"
   log="$LOG_DIR/${t}.log"
 
@@ -116,5 +122,8 @@ for t in "${TESTS[@]}"; do
   else
     echo "[FAIL] $t (see log: $log)" >&2
   fi
+
+  cd -
+
 done
 
