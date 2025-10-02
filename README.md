@@ -16,10 +16,10 @@ All challenges must be completed using AI tools and all information regarding th
 ## Timeline:
 - 10 July: First challenge given
 - 15 August: Second challenge given
-- 1 October: All challenges due
-- 3 October: Finalist teams will be notified and invited to participate in finals at CSAW in New York City
+- 6 October: All challenges due
+- 8 October: Finalist teams will be notified and invited to participate in finals at CSAW in New York City
     - We may not be able to fly all teams out, depending on their location. Global participation is still encouraged. If you cannot attend a CSAW event in person we will arrange for virtual presentations.
-- 8 October: Final challenge given
+- 13 October: Final challenge given
 - 7 November: Final challenge presentations and poster session at CSAW in New York City
 
 #### Note: The challenges do not need to be completed within the month they are given, this is just when we are releasing them. We will also update a monthly leaderboard in this repository as the competition progresses. All teams will have up until the 8 October deadline to submit their challenges to earn points and be considered as a finalist team.
@@ -33,7 +33,9 @@ No need to register up front, please submit your team's registration using [this
 Teams can consist of up to **four college/university students** with **one advisor**.
 
 ## Prizes:
-Prizes for this competition are still being sourced, but the top 3 teams at the conclusion during CSAW will receive hardware or pre-purchased space on a future Tiny Tapeout!
+1st: [ChipWhisperer Side-Channel and Glitching Starter Pack*](https://www.newae.com/product-page/side-channel-glitching-starter-pack-level-1)
+2nd: [ChipWhisperer Lite (Two-Part)*](https://www.newae.com/product-page/chipwhisperer-lite-cw1173-two-part-version)
+3rd: Space on a future [Tiny Tapeout](https://tinytapeout.com/)
 
 ## Open-Sourcing:
 - We will be exclusively using open-source designs for this competition, as well as open-source EDA tools for evaluation!
