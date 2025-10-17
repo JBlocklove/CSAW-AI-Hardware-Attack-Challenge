@@ -50,9 +50,12 @@ Teams can consist of up to **four college/university students** with **one advis
 You can find all information for the first challenge [here!](./challenges/challenge_1)
 
 ## Challenge #2!
-You can find all information for the first challenge [here!](./challenges/challenge_2)
+You can find all information for the second challenge [here!](./challenges/challenge_2)
 
-## Using the Docker:
+## Final Challenge!
+You can find all information for the final challenge [here!](./challenges/final)
+
+## Using the Docker (Only Applies to Qualifying Challenges):
 We are providing a Docker container with some tools already installed so you can check the functionality of the design. You do not need to use the Docker, but we encourage using it at least once before submission to ensure that your design is working in that environment, as that is the container we will be using to verify submissions.
 
 ### Quick Start (Pull & Run)
