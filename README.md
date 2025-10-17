@@ -20,6 +20,7 @@ All challenges must be completed using AI tools and all information regarding th
 - 8 October: Finalist teams will be notified and invited to participate in finals at CSAW in New York City
     - We may not be able to fly all teams out, depending on their location. Global participation is still encouraged. If you cannot attend a CSAW event in person we will arrange for virtual presentations.
 - 13 October: Final challenge given
+- 5 November: Final challenge submissions are due
 - 7 November: Final challenge presentations and poster session at CSAW in New York City
 
 #### Note: The challenges do not need to be completed within the month they are given, this is just when we are releasing them. We will also update a monthly leaderboard in this repository as the competition progresses. All teams will have up until the 8 October deadline to submit their challenges to earn points and be considered as a finalist team.
